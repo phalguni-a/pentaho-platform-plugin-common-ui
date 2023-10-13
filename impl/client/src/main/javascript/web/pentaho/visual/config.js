@@ -840,6 +840,19 @@ define(function() {
         }
       },
 
+      // Funnel
+      {
+        priority: RULE_PRIO_VIZ_DEFAULT,
+        select: {
+          module: "pentaho/ccc/visual/Funnel"
+        },
+        apply: {
+          extension: {
+            valuesVisible: true
+          }
+        }
+      },
+
       // Treemap
       {
         priority: RULE_PRIO_VIZ_DEFAULT,

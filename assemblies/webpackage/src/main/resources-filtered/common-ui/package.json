@@ -389,6 +389,33 @@
         }
       },
 
+      "pentaho/visual/models/Funnel": {
+        "base": "pentaho/visual/models/Abstract",
+        "annotations": {
+          "pentaho/visual/DefaultView": {
+            "module": "pentaho/ccc/visual/Funnel"
+          }
+        }
+      },
+
+      "pentaho/visual/models/Treemap": {
+        "base": "pentaho/visual/models/Abstract",
+        "annotations": {
+          "pentaho/visual/DefaultView": {
+            "module": "pentaho/ccc/visual/Treemap"
+          }
+        }
+      },
+
+      "pentaho/visual/models/Waterfall": {
+        "base": "pentaho/visual/models/BarAbstract",
+        "annotations": {
+          "pentaho/visual/DefaultView": {
+            "module": "pentaho/ccc/visual/Waterfall"
+          }
+        }
+      },
+
       "pentaho/visual/models/MetricPointAbstract": {
         "base": "pentaho/visual/models/CartesianAbstract"
       },

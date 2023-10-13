@@ -317,6 +317,20 @@
     }
   };
 
+  requireModules["pentaho/visual/models/Funnel"] = {
+    base: "pentaho/visual/models/Abstract",
+    annotations: {
+      "pentaho/visual/DefaultView": {module: "pentaho/ccc/visual/Funnel"}
+    }
+  };
+
+  requireModules["pentaho/visual/models/Treemap"] = {
+    base: "pentaho/visual/models/Abstract",
+    annotations: {
+      "pentaho/visual/DefaultView": {module: "pentaho/ccc/visual/Treemap"}
+    }
+  };
+
   requireModules["pentaho/visual/models/MetricPointAbstract"] = {base: "pentaho/visual/models/CartesianAbstract"};
   requireModules["pentaho/visual/models/Scatter"] = {
     base: "pentaho/visual/models/MetricPointAbstract",
@@ -372,6 +386,7 @@
   requireModules["pentaho/ccc/visual/BarNormalizedAbstract"] = {base: "pentaho/ccc/visual/BarAbstract"};
   requireModules["pentaho/ccc/visual/BarNormalized"] = {base: "pentaho/ccc/visual/BarNormalizedAbstract"};
   requireModules["pentaho/ccc/visual/BarNormalizedHorizontal"] = {base: "pentaho/ccc/visual/BarNormalizedAbstract"};
+  requireModules["pentaho/ccc/visual/Waterfall"] = {base: "pentaho/ccc/visual/BarAbstract"};
 
   requireModules["pentaho/ccc/visual/Sunburst"] = {base: "pentaho/ccc/visual/Abstract"};
   requireModules["pentaho/ccc/visual/Pie"] = {base: "pentaho/ccc/visual/Abstract"};
@@ -688,6 +703,7 @@
       "pentaho/visual/models/BarNormalizedAbstract",
       "pentaho/visual/models/BarNormalized",
       "pentaho/visual/models/BarNormalizedHorizontal",
+      "pentaho/visual/models/Waterfall",
       "pentaho/visual/models/BarStacked",
       "pentaho/visual/models/BarStackedHorizontal",
       "pentaho/visual/models/types/ColorSet",
@@ -699,6 +715,7 @@
       "pentaho/visual/models/Bubble",
       "pentaho/visual/models/Pie",
       "pentaho/visual/models/Donut",
+      "pentaho/visual/models/Funnel",
       "pentaho/visual/models/Treemap",
       "pentaho/visual/models/HeatGrid",
       "pentaho/visual/models/Line",
@@ -748,6 +765,7 @@
       "pentaho/ccc/visual/Bubble",
       "pentaho/ccc/visual/Pie",
       "pentaho/ccc/visual/Donut",
+      "pentaho/ccc/visual/Funnel",
       "pentaho/ccc/visual/HeatGrid",
       "pentaho/ccc/visual/Line",
       "pentaho/ccc/visual/Scatter",

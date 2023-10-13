@@ -1,5 +1,5 @@
 /*!
- * Copyright 2010 - 2018 Hitachi Vantara. All rights reserved.
+ * Copyright 2010 - 2023 Hitachi Vantara. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +15,20 @@
  */
 define([
   "pentaho/module!_",
-  "./Pie",
-  "pentaho/i18n!./i18n/model"
-], function(module, BaseModel, bundle) {
+  "pentaho/type/String",
+  "pentaho/type/mixins/Enum",
+  "pentaho/i18n!../i18n/model"
+], function (module, PentahoString, EnumMixin, bundle) {
 
   "use strict";
 
-  return BaseModel.extend({
+  return PentahoString.extend({
     $type: {
       id: module.id,
-
-      label: "Donut",
-
-      props:[
-        {
-          name:"explodedSliceRadius",
-          valueType: "string",
-          defaultValue: "2%"
-        }
-      ]
+      mixins: [EnumMixin],
+      domain: ["squarify", "slice-and-dice", "slice", "dice"]
     }
   })
-  .localize({$type: bundle.structured.Donut})
-  .configure();
+    .localize({$type: bundle.structured.LayoutMode})
+    .configure();
 });

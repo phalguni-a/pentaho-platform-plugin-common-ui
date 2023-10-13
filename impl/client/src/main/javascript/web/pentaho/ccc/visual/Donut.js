@@ -16,12 +16,37 @@
 define([
   "pentaho/module!_",
   "./Pie"
-], function(module, BaseView) {
+], function (module, BaseView) {
 
   "use strict";
 
   // "pentaho/visual/models/Donut"
 
-  return BaseView.extend(module.id)
+  return BaseView.extend(module.id, {
+    _configureOptions: function () {
+      this.base();
+
+      var explodedSliceRadius = this.model.explodedSliceRadius;
+      // var innerRadius = this.model.slice_innerRadiusEx;
+
+      this.options.explodedSliceRadius = explodedSliceRadius;
+
+      //TODO: This doesn't work
+
+      // if (this.__extension == null) {
+      //   this.__extension = {"slice_innerRadiusEx": innerRadius};
+      //
+      // } else if (this.__extension.slice_innerRadiusEx == null || this.__extension.slice_innerRadiusEx !== innerRadius) {
+      //   this.__extension.slice_innerRadiusEx = innerRadius;
+      // }
+
+      console.log(this.__extension);
+    },
+
+    _configureProperties: function () {
+      this.base();
+    }
+
+  })
     .implement(module.config);
 });
