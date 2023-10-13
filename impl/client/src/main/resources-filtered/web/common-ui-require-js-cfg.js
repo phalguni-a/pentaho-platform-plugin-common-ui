@@ -206,6 +206,8 @@
   requirePaths["dojo/request/default"] = dojoOverrides + "dojo/request/default";
   // endregion
 
+  requirePaths["common-ui/echarts"] =  basePath+"/echarts/echarts.min";
+
   // region Bundled 3rd party libs
   requirePaths["common-ui/jquery"] = basePath + "/jquery/jquery.conflict";
 
