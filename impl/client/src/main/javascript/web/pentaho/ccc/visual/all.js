@@ -41,7 +41,8 @@ define([
   "./Scatter",
   "./Sunburst",
   "./Treemap",
-  "./Waterfall"
+  "./Waterfall",
+  "./Funnel"
 ], function() {
   "use strict";
 });

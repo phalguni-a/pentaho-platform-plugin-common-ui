@@ -16,17 +16,21 @@
  */
 define([
   "pentaho/module!_",
-    "pentaho/i18n!./i18n/model",
+  "pentaho/i18n!./i18n/model",
   "../Model",
-], function (module, bundle, BaseModel) {
+  "./mixins/ScaleColorDiscrete",
+  "./types/SliceOrder",
+  "./types/LabelsOption",
+], function (module, bundle, BaseModel, ScaleColorDiscreteModel, SliceOrder, LabelsOption) {
   "use strict";
 
   return BaseModel.extend({
     $type: {
       id: module.id,
+      mixins: [ScaleColorDiscreteModel],
       category: "funnelchart",
       label: "Funnel",
-      props:[
+      props: [
         // VISUAL_ROLE
         {
           name: "rows",
@@ -39,11 +43,26 @@ define([
         {
           name: "measures",
           base: "pentaho/visual/role/Property",
-          modes: {dataType: ["number"]},
+          modes: {dataType: "number"},
           fields: {isRequired: true},
           ordinal: 7
         },
         //End VISUAL_ROLE
+        {
+          name: "order",
+          valueType: SliceOrder,
+          domain: ["bySizeDescending", "bySizeAscending"],
+          isRequired: true,
+          defaultValue: "bySizeDescending"
+        },
+        {
+          name: "labelsOption",
+          valueType: LabelsOption,
+          domain: ["inside","insideRight","insideLeft","left","right","leftTop","leftBottom","rightTop","rightBottom"],
+          isRequired: true,
+          defaultValue: "inside"
+
+        }
       ]
     }
   })

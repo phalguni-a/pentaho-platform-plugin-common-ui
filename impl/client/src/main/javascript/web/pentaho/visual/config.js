@@ -750,7 +750,7 @@ define(function() {
         },
         apply: {
           extension: {
-            slice_innerRadiusEx: "60%"
+            // slice_innerRadiusEx: "60%"
           }
         }
       },

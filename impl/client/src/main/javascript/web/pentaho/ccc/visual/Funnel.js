@@ -16,10 +16,13 @@
 define([
   "pentaho/module!_",
   "pentaho/visual/impl/View",
-  "common-ui/echarts"
-], function (module, BaseView, echart) {
+  "common-ui/echarts",
+  "./_util",
+  "pentaho/visual/color/util",
+], function (module, BaseView, echarts, util, visualColorUtils) {
 
   "use strict";
+  var font = util.defaultFont(null, 12);
 
   return BaseView.extend(module.id, {
     _cccClass: "FunnelChart",
@@ -28,53 +31,101 @@ define([
       "measures": "measures"
     },
 
-    _configureOptions: function () {
-      this.base();
-      echart.init();
+    configureLabel: function (option) {
+      // var font = util.defaultFont(null, 12);
 
+      var label = {
+        show: true,
+        position: this.model.labelsOption,
+        formatter: '{b}: {d}%',
+        backgroundColor: 'transparent',
+        fontSize: font.substring(0, font.indexOf(' ')),
+        fontFamily: font.substring(font.indexOf(' ') + 1)
+      };
+
+      option.series.forEach(function (row) {
+        row.label = label;
+      })
     },
 
-    _update: function (event, action) {
-      this.base;
-      var myChart = echart.init(this.__domContainer, null, {});
+    configureLegend: function (option, records) {
+      var categories = [];
+      var font = util.defaultFont(null, 14);
+
+      records.forEach(function (record) {
+          categories.push(record.name);
+        }
+      );
+
+      var legend = {
+        data: categories,
+        type: 'scroll',
+        textStyle: {
+          fontSize: font.substring(0, font.indexOf(' ')),
+          fontFamily: font.substring(font.indexOf(' ') + 1),
+        }
+      };
+      option.legend = legend;
+    },
+
+    configureColors: function () {
+      return this.model.palette.colors.toArray(function (color) {
+        return color.value;
+      });
+    },
+
+    _updateAll: function () {
+      this.base();
+      var myChart = echarts.init(this.__domContainer, null, {});
+
+      var dataTable = this.model.data;
+      if (dataTable.originalCrossTable) {
+        dataTable = dataTable.originalCrossTable.toPlainTable({skipRowsWithAllNullMeasures: true});
+      }
+
+      var rowLength = dataTable.getNumberOfRows();
+      var colLength = dataTable.getNumberOfColumns();
+      var range = dataTable.getColumnRange(colLength - 1);
+
+      var records = [];
+// TODO: Change below logic
+      for (var i = 0; i < rowLength; i++) {
+        var tooltipFormatString = '';
+        for (var j = 0; j < colLength; j++) {
+          tooltipFormatString = tooltipFormatString + dataTable.getColumnLabel(j) + " : " + dataTable.getFormattedValue(i, j) + "<br />";
+        }
+        records.push({
+          name: dataTable.getFormattedValue(i, colLength - 2),
+          value: dataTable.getValue(i, colLength - 1),
+          tooltip: {
+            formatter: tooltipFormatString,
+            fontSize: font.substring(0, font.indexOf(' ')),
+            fontFamily: font.substring(font.indexOf(' ') + 1)
+          },
+        });
+      }
 
       var option = {
-        title: {
-          text: 'Funnel'
-        },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}%'
+          trigger: 'item'
         },
-        toolbox: {
-          feature: {
-            dataView: {readOnly: false},
-            restore: {},
-            saveAsImage: {}
-          }
-        },
-        legend: {
-          data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order']
-        },
-
+        color: this.configureColors(),
         series: [
           {
-            name: 'Funnel',
             type: 'funnel',
-            left: '10%',
-            top: 60,
-            bottom: 60,
-            width: '80%',
-            min: 0,
-            max: 100,
-            minSize: '0%',
+            left: '20%',
+            right: '20%',
+            top: '10%',
+            bottom: '10%',
+            width: 'auto',
+            height: 'auto',
+            min: range.min,
+            max: range.max,
+            minSize: 5,
             maxSize: '100%',
-            sort: 'descending',
-            gap: 2,
-            label: {
-              show: true,
-              position: 'inside'
-            },
+            sort: this.model.order === "bySizeDescending" ? "descending" : "ascending",
+            legendHoverLink: true,
+            gap: 4,
             labelLine: {
               length: 10,
               lineStyle: {
@@ -91,20 +142,16 @@ define([
                 fontSize: 20
               }
             },
-            data: [
-              {value: 60, name: 'Visit'},
-              {value: 40, name: 'Inquiry'},
-              {value: 20, name: 'Order'},
-              {value: 80, name: 'Click'},
-              {value: 100, name: 'Show'}
-            ]
+            data: records
           }
         ]
       };
+
+      this.configureLabel(option);
+      this.configureLegend(option, records);
+
       // Draw the chart
       myChart.setOption(option);
-
-
     }
 
   }).implement(module.config);
